@@ -49,3 +49,16 @@ class Screen:
             for x in range(self.width):
                 self.buffer += self.calcChar(x, y)
             self.buffer += '\n'
+    
+    def pixelIndex(self, x: int, y: int):
+        if (x < 0 or x >= consts.PIXEL_WIDTH or y < 0 or y >= consts.PIXEL_HEIGHT):
+            return None
+        return x + y * consts.PIXEL_WIDTH
+    
+    def getPixel(self, x: int, y: int):
+        index = self.pixelIndex(x, y)
+        return None if index == None else self.pixels[index]
+    def setPixel(self, x: int, y: int, val: float):
+        index = self.pixelIndex(x, y)
+        if index != None:
+            self.pixels[index] = val
