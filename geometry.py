@@ -1,5 +1,6 @@
 import math
 from screen import Screen
+import consts
 
 class Vector2:
     def __init__(self, x = 0, y = 0):
@@ -45,12 +46,12 @@ class Triangle:
         start = Vector2(min(self.a.x, self.b.x, self.c.x), min(self.a.y, self.b.y, self.c.y))
         end = Vector2(max(self.a.x, self.b.x, self.c.x), max(self.a.y, self.b.y, self.c.y))
 
-        center = Vector2(screen.pixelWidth // 2, screen.pixelHeight // 2)
+        center = Vector2(consts.PIXEL_WIDTH // 2, consts.PIXEL_HEIGHT // 2)
 
         for x in range(math.floor(start.x), math.floor(end.x + 1)):
             for y in range(math.floor(start.y), math.floor(end.y + 1)):
                 if self.isInside(Vector2(x, y)):
-                    screen.pixels[center.x + x + (center.y + y) * screen.pixelWidth] = 1.0
+                    screen.setPixel(center.x + x, center.y + y, 1.0)
 # class Rect:
 
 # class Circle:

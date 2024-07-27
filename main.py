@@ -5,7 +5,7 @@ import geometry
 from time import sleep
 
 def main():
-    foo = screen.Screen(115, 20)
+    foo = screen.Screen()
     
     # print(geometry.edgeFunction(Vector2(0, 0), Vector2(100, 0), Vector2(0, 100)))
 

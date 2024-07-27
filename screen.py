@@ -1,21 +1,13 @@
 import os
 import array
-import math
+import consts
 
 def clamp(val, min, max):
     return max if val > max else (min if val < min else val)
 
 class Screen:
-    def __init__(self, width, height, charWidth = 6, charHeight = 13):
-        self.width = width
-        self.height = height
-        self.charWidth = charWidth;
-        self.charHeight = charHeight;
-        self.pixelWidth = charWidth * width
-        self.pixelHeight = charHeight * height
-        self.pixelsPerChar = charHeight * charWidth
-        self.pixels = array.array('d', [0] * self.pixelWidth * self.pixelHeight)
-        self.gradient = " .:!/r(l1Z4H9W8$@"
+    def __init__(self):
+        self.pixels = array.array('d', [0] * consts.NUMBER_OF_PIXELS)
         self.fill(' ')
 
     def display(self):
@@ -23,30 +15,30 @@ class Screen:
         print(self.buffer, end="", flush=True)
     
     def fill(self, c):
-        self.buffer = (c * (self.width) + '\n') * self.height;
+        self.buffer = (c * (consts.WIDTH) + '\n') * consts.HEIGHT;
 
     def charFromBrightness(self, bright):
         bright = clamp(bright, 0.0, 1.0)
-        bright *= len(self.gradient) - 1;
-        return self.gradient[round(bright)]
+        bright *= len(consts.GRAY_SCALE) - 1;
+        return consts.GRAY_SCALE[round(bright)]
 
     def calcChar(self, x, y):
         value = 0.0
         
-        x *= self.charWidth
-        y *= self.charHeight
+        x *= consts.CHAR_WIDTH
+        y *= consts.CHAR_HEIGHT
 
-        for pixelY in range(self.charHeight):
-            for pixelX in range(self.charWidth):
-                value += self.pixels[pixelX + x + (pixelY + y) * self.pixelWidth]
+        for pixelY in range(consts.CHAR_HEIGHT):
+            for pixelX in range(consts.CHAR_WIDTH):
+                value += self.getPixel(pixelX + x , pixelY + y)
         
-        value /= self.pixelsPerChar
+        value /= consts.PIXELS_PER_CHAR
         return self.charFromBrightness(value)
 
     def update(self):
         self.buffer = ""
-        for y in range(self.height):
-            for x in range(self.width):
+        for y in range(consts.HEIGHT):
+            for x in range(consts.WIDTH):
                 self.buffer += self.calcChar(x, y)
             self.buffer += '\n'
     
